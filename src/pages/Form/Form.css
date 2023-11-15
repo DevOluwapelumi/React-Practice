@@ -1,0 +1,91 @@
+.inp-1{
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0.178);
+    height: 50px;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    border-radius: 0px;
+  }
+  
+  .logo-div{
+    width:65%;
+    height:50%;
+    border-radius:50%;
+    background: rgba(0, 89, 255, 0.397)
+  }
+  .side-div{
+    display: flex;
+    align-items: center;
+    width: 45%;
+    background: rgba(0, 89, 255, 0.397)
+  }
+  .inp-div{
+    width: 65%;
+  }
+  .contact-div{
+    width: 45%;
+  }
+  .circle{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.5s ease;
+  }
+  .circle:hover{
+    color: blue;
+    margin-top: -20px;
+  }
+  .logo2{
+    background-color: rgba(0, 89, 255, 0.699);
+    width: 120px;
+    text-align: center;
+    height: 50px;
+    border-radius: 5px;
+  }
+  .logo2 img{
+    width: 120px;
+    position: relative;
+    top: -10px;
+  }
+  .last-div{
+    background-color: rgba(0, 89, 255, 0.397);
+    height: 60px;
+    position: relative;
+    top: 12px;
+  }
+  body{
+    background: rgba(0, 89, 255, 0.233);
+  }
+  @media (max-width:768px) {
+    .container{
+      width: 95vw !important;
+      display: block !important;
+      box-shadow: none !important;
+      border: none !important;
+      margin: auto;
+      margin-top: 10px !important;
+    }
+    .contact-div{
+      width: auto;
+      padding: 0% !important;
+    }
+    .about{
+      margin-top: 20px;
+    }
+    .logo2{
+      visibility: hidden;
+    }
+    .side-div, .inp-div{
+      width: 100%;
+    }
+    body{
+      background: white;
+    }
+    .label{
+      display: none !important;
+    }
+    .d-inp{
+      width: 100% !important;
+    }
+  }
