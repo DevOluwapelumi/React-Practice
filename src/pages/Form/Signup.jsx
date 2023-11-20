@@ -1,106 +1,58 @@
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import axios from 'axios';
+import { useState } from 'react'
+import axios from 'axios'
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
+
 const Signup = () => {
-    let navigate = useNavigate
-    
-  const formik = useFormik({
-    initialValues: {
-      fullName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    },
-    validationSchema: Yup.object({
-      fullName: Yup.string().required('Required'),
-      email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().min(8, 'Password should be 8 characters or more').required('Required'),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        .required('Required'),
-    }),
-    onSubmit: async () => {
-        try {
-          const response = await axios.post('https://node-modularization-class.onrender.com/signup', values);
-  
-          console.log('Signup Successful:', response.data);
-  
-          // Redirect to login page
-          navigate('/login');
-        } catch (error) {
-          console.error('Signup Error:', error);
-        }
-      },
-  });
+
+  const navigate = useNavigate()
+  const [myname, fname] = useState("")
+  const [myphone, phonenum] = useState("")
+  const [mymail, mail] = useState("")
+  const [mypass, pass] = useState("")
+  const clickme = () => {
+    if (myname == "" || myphone == "" || mymail == "" || mypass == "") {
+      toast("enter you input")
+    }
+    else {
+      let url = "http://localhost:5000/user/register"
+      axios.post(url, { firstName: myname, phoneo: myphone, email: mymail, password: mypass })
+        .then((response) => {
+          console.log(response);
+          toast(response.data.message)
+          if (response.data.status == true) {
+            setTimeout(() => {
+              navigate("/login")
+            }, 1600);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          toast(err.response.data.message)
+        })
+    }
+  }
 
   return (
-    <div>
-      <h2>Signup</h2>
-      <form onSubmit={formik.handleSubmit}>
-        <div>
-          <label htmlFor="fullName">Full Name:</label>
-          <input
-            type="text"
-            id="fullName"
-            name="fullName"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.fullName}
-          />
-          {formik.touched.fullName && formik.errors.fullName ? (
-            <div>{formik.errors.fullName}</div>
-          ) : null}
+    <>
+    <div className='container'>
+      <div className='row'>
+        <div className='col-md-6 col-sm-12 mx-auto text-center border border-2 rounded-2 p-3 mt-5 shadow'>
+          <h3 className='fw-bold text-success'>Sign-Up</h3>
+          <input type="text" className='my-2 form-control' onChange={(e) => fname(e.target.value)} placeholder='FirstName' />
+          <input type="text" className='my-2 form-control' onChange={(e) => phonenum(e.target.value)} placeholder='Phone-num' />
+          <input type="text" className='my-2 form-control' onChange={(e) => mail(e.target.value)} placeholder='Email' />
+          <input type="text" className='my-2 form-control' onChange={(e) => pass(e.target.value)} placeholder='Password' />
+          {/* <Link to="/textin"> */}
+          <button className='btn btn-primary' onClick={clickme}> Click-me</button>
+          {/* </Link> */}
         </div>
-
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-          />
-          {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
-        </div>
-
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <div>{formik.errors.password}</div>
-          ) : null}
-        </div>
-
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password:</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.confirmPassword}
-          />
-          {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-            <div>{formik.errors.confirmPassword}</div>
-          ) : null}
-        </div>
-
-        <button type="submit">Submit</button>
-      </form>
+      </div>
     </div>
-  );
-};
+  </>
+
+  )
+}
 
 export default Signup;

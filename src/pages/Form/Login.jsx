@@ -1,68 +1,46 @@
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import axios from 'axios';
+import { useState } from 'react'
+import axios from 'axios'
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validationSchema: Yup.object({
-      email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().required('Required'),
-    }),
-    onSubmit: async (values) => {
-        try {
-          const response = await axios.post('https://node-modularization-class.onrender.com/login', values);
-  
-          console.log('Login Successful:', response.data);
-  
-          // Redirect to the dashboard
-          history.push('/dashboard');
-        } catch (error) {
-          console.error('Login Error:', error);
-        }
-      },
-  });
+  const navigate = useNavigate()
+  const [mymail, mail] = useState("")
+  const [mypass, pass] = useState("")
+  const Signin = () => {
+      let url = "http://localhost:5000/user/login"
+      axios.post(url, { email: mymail, password: mypass })
+          .then((response) => {
+              toast[response.data.status ? 'success' : "error"](response.data.message)
+              if (response.data.status == true) {
+                      localStorage.token = response.data.token
+                      navigate("/dashboard")
+              }
+          })
+          .catch((err) => {
+              console.log(err);
+              toast(err.response.data.message)
+          })
+  }
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={formik.handleSubmit}>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-          />
-          {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
+    <>
+    <div className='container'>
+        <div className='row'>
+            <div className='col-md-6 col-sm-12 mx-auto text-center border border-2 rounded-2 p-3 mt-5 shadow'>
+                <h3 className='fw-bold text-success'>Login</h3>
+                <input type="text" className='my-2 form-control' onChange={(e) => mail(e.target.value)} placeholder='Email' />
+                <input type="text" className='my-2 form-control' onChange={(e) => pass(e.target.value)} placeholder='Password' />
+                <button className='btn btn-primary' onClick={Signin}>Sign In</button>
+            </div>
         </div>
-
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <div>{formik.errors.password}</div>
-          ) : null}
-        </div>
-
-        <button type="submit">Submit</button>
-      </form>
     </div>
-  );
-};
+
+</>
+
+  )
+}
 
 export default Login;
