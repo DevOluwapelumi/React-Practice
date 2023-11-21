@@ -12,7 +12,7 @@ const Dashboard = () => {
     let token = localStorage.token;
     if (!token) {
       console.log("Token not found");
-      navigate("/Textin");
+      navigate("/login");
       return;
     }
     axios.get(url, {

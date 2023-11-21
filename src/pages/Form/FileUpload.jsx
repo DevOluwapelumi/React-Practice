@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 const FileUpload = () => {
-    const url = 'http://localhost:{your localhost}/user/upload';
+    const url = 'http://localhost:5000/user/upload';
     const [file, setFile] = useState("");
     const [uploadedImage, setUploadedImage] = useState("");
     const uploadFile = (e) => {

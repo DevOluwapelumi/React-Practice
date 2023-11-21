@@ -11,13 +11,23 @@ const Signup = () => {
   const [myphone, phonenum] = useState("")
   const [mymail, mail] = useState("")
   const [mypass, pass] = useState("")
-  const clickme = () => {
+  const [userName, setUserName] = useState("")
+
+const clickme = () => {
     if (myname == "" || myphone == "" || mymail == "" || mypass == "") {
-      toast("enter you input")
+      toast("enter your input")
     }
     else {
-      let url = "http://localhost:5000/user/register"
-      axios.post(url, { firstName: myname, phoneo: myphone, email: mymail, password: mypass })
+      const url = "http://localhost:5000/user/register"
+      let userDetails = {
+        firstName: myname,
+        phone: myphone,
+        email: mymail,
+        password: mypass,
+        userName: userName,
+      }
+      console.log(userDetails);
+      axios.post(url, userDetails)
         .then((response) => {
           console.log(response);
           toast(response.data.message)
@@ -44,6 +54,7 @@ const Signup = () => {
           <input type="text" className='my-2 form-control' onChange={(e) => phonenum(e.target.value)} placeholder='Phone-num' />
           <input type="text" className='my-2 form-control' onChange={(e) => mail(e.target.value)} placeholder='Email' />
           <input type="text" className='my-2 form-control' onChange={(e) => pass(e.target.value)} placeholder='Password' />
+          <input type="text" className='my-2 form-control' onChange={(e) => setUserName(e.target.value)} placeholder='userName' />
           {/* <Link to="/textin"> */}
           <button className='btn btn-primary' onClick={clickme}> Click-me</button>
           {/* </Link> */}
