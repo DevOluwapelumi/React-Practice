@@ -11,6 +11,7 @@ import Login from './pages/Form/Login';
 import "./styles.css";
 import FileUpload from './pages/Form/FileUpload';
 import Dashboard from './pages/Form/dashboard';
+import Button from './Props/Button';
 
 const App = () => {
 
@@ -29,6 +30,14 @@ const App = () => {
       })
     }
   }, [])
+
+ 
+   const handleEdit = () => {
+    alert("Edit")
+   }
+   const handleDelete = () => {
+    alert("Delete")
+  }
   let token = localStorage.token
 
 
@@ -69,6 +78,9 @@ const App = () => {
       <ToastContainer />
 
         </Router>
+
+        <Button title="Edit" color="bg-blue-500" onClick={handleEdit} />
+      <Button title="Delete" color="bg-red-400" onClick={handleDelete} />
     </>
   );
 }
